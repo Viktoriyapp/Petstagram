@@ -30,6 +30,13 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+PROJECT_APPS = [
+    'accounts',
+    'common',
+    'pets',
+    'photos',
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + PROJECT_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,9 +81,13 @@ WSGI_APPLICATION = 'petstagram.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "petstagram_database",
+        "USER": "postgres",
+        "PASSWORD": "1234",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
@@ -116,3 +127,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
