@@ -22,6 +22,21 @@
                 <!-- if the photo has location -->
                 <span>{{ photo.location }}</span>
             </h3>
+
+            {% if editable %}
+                <div class="edit-delete-btns">
+                    <!-- Link to Edit Pet Photo Page -->
+                    <a href="#">
+                        <img class="edit-img" src="/static/images/edit-pen-icon-6.jpg"
+                             alt="edit button">
+                    </a>
+
+                    <!-- Link to Delete Pet Photo Page -->
+                    <a href="#">
+                        <img class="bin-img" src="/static/images/icon-remove-22.jpg" alt="bin button">
+                    </a>
+                </div>
+            {% endif %}
         </div>
         <!--  -->
     </div>
@@ -70,16 +85,47 @@
 
         <h5 class="postTime">{{ photo.date_of_publications }}</h5>
 
-        <!-- add comments section -->
-        <div class="addComments">
+        {% if editable %}
+            {% for comment in photo.comment_set.all %}
+            <div class="comments">
+                <div class="top">
+                    <div class="userDetails">
+                        <div class="comment-data">
+                            <div class="profilepic">
+                                <div class="profile_img">
+                                    <div class="image">
+                                        <!-- User Profile Image -->
+                                        <img src="/static/images/person.png" alt="img8">
+                                    </div>
+                                </div>
+                            </div>
+                            <p>
+                                <!-- Link to User Profile Details Page-->
+                                <!-- User First and/or Last Name or username-->
+                                <a href="">Steven Ivanov</a>
+                                <!-- User Comment -->
+                                - {{ comment.text }}
+                            </p>
+                        </div>
+                        <span>{{ comment.date_and_time_of_publication|date:'M. d, Y, h:m a' }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- End Comments Section -->
+            </div>
+        {% endif %}
 
-            <form method="post" action="add comment">
-                <label for="id_body">Body:</label>
-                <textarea name="body" cols="40" rows="10" placeholder="Add comment..." maxlength="300"
-                          required="" id="id_body"></textarea>
-                <button type="submit">Post</button>
-            </form>
-        </div>
-        <!--  -->
+    <!-- add comments section -->
+    <div class="addComments">
+
+        <form method="post" action="add comment">
+            <label for="id_body">Body:</label>
+            <textarea name="body" cols="40" rows="10" placeholder="Add comment..." maxlength="300"
+                      required="" id="id_body"></textarea>
+            <button type="submit">Post</button>
+        </form>
     </div>
+    <!--  -->
+</div>
 </div>
