@@ -1,5 +1,6 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, resolve_url
+from django.views.generic import TemplateView, ListView
 from pyperclip import copy
 
 from common.forms import CommentForm, SearchForm
@@ -9,21 +10,37 @@ from photos.models import Photo
 
 # Create your views here.
 
-def home_page(request: HttpRequest) -> HttpResponse:
-    form = SearchForm(request.GET or None)
-    all_photos = (Photo.objects
-        .prefetch_related('tagged_pets', 'like_set')
-        .all())
+class HomePageView(ListView):
+    template_name = 'common/home-page.html'
+    queryset = Photo.objects.prefetch_related('tagged_pets', 'like_set')
+    context_object_name = 'all_photos'
+    paginate_by = 1
 
-    if request.GET and form.is_valid(): # if its not an empty dict
-        searched_name = form.cleaned_data['pet_name']
-        all_photos = all_photos.filter(tagged_pets__name__icontains=searched_name)
+    def get_queryset(self):
+        qs = super().get_queryset()
+        pet_name = self.request.GET.get('pet_name')
 
-    context = {
-        'all_photos': all_photos,
-    }
+        if pet_name:
+            qs = qs.filter(tagged_pets__name__icontains=pet_name)
 
-    return render(request, 'common/home-page.html', context)
+        return qs
+
+
+# def home_page(request: HttpRequest) -> HttpResponse:
+#     form = SearchForm(request.GET or None)
+#     all_photos = (Photo.objects
+#         .prefetch_related('tagged_pets', 'like_set')
+#         .all())
+#
+#     if request.GET and form.is_valid(): # if its not an empty dict
+#         searched_name = form.cleaned_data['pet_name']
+#         all_photos = all_photos.filter(tagged_pets__name__icontains=searched_name)
+#
+#     context = {
+#         'all_photos': all_photos,
+#     }
+#
+#     return render(request, 'common/home-page.html', context)
 
 
 def add_comment(request: HttpRequest, photo_pk: int) -> HttpResponse:
