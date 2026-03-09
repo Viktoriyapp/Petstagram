@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Sum
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -26,18 +27,25 @@ class RegisterAppUserView(CreateView):
 # def login(request: HttpRequest) -> HttpResponse:
 #     return render(request, 'accounts/login-page.html')
 
-def profile_details(request: HttpRequest, pk: int) -> HttpResponse:
-    return render(request, 'accounts/profile-details-page.html')
+# def profile_details(request: HttpRequest, pk: int) -> HttpResponse:
+#     return render(request, 'accounts/profile-details-page.html')
 
 
-# class ProfileDetailView(LoginRequiredMixin, DetailView):
-#     model = Profile
-#     template_name = 'accounts/profile-details-page.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#
-#         context['']
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = 'accounts/profile-details-page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['total_likes'] = self.object.user.photo_set.annotate(
+            num_likes=Count('like'),
+        ).aggregate(total_likes=Sum('num_likes')).get('total_likes') or 0
+
+        context['total_pets'] = self.object.user.pet_set.count()
+        context['total_photos'] = self.object.user.photo_set.count()
+
+        return context
 
 
 def profile_edit(request: HttpRequest, pk: int) -> HttpResponse:

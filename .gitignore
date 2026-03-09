@@ -14,3 +14,5 @@ env/
 # Django
 db.sqlite3
 
+# Media
+media/

@@ -19,8 +19,10 @@ class PetAddView(CreateView):
         return reverse('accounts:details', kwargs={'pk': self.object.user.pk})
 
     def form_valid(self, form):
-        form.user = self.request.user
-        super().form_valid(form)
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
 # def pet_add(request: HttpRequest) -> HttpResponse:
 #     form = PetForm(request.POST  or None)

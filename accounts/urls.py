@@ -7,7 +7,7 @@ from accounts import views
 app_name = 'accounts'
 
 profile_patterns = [
-    path('', views.profile_details, name='details'),
+    path('', views.ProfileDetailView.as_view(), name='details'),
     path('edit/', views.profile_edit, name='edit'),
     path('delete/', views.profile_delete, name='delete'),
 ]
