@@ -138,4 +138,11 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# For our custom user
 AUTH_USER_MODEL = 'accounts.AppUser'
+
+# For LoginView & Logout in urls
+LOGIN_REDIRECT_URL = 'common:home'
+LOGOUT_REDIRECT_URL = 'accounts:login'
+LOGIN_URL = 'accounts:login'

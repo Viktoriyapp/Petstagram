@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, include
 
 from accounts import views
@@ -13,7 +14,8 @@ profile_patterns = [
 
 authentication_patterns = [
     path('register/', views.RegisterAppUserView.as_view(), name='register'),
-    path('login/', views.login, name='login'),
+    path('login/', LoginView.as_view(template_name='accounts/login-page.html'), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
 urlpatterns = [
     path('', include(authentication_patterns)),

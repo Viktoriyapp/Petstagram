@@ -21,8 +21,8 @@ class RegisterAppUserView(CreateView):
     success_url = reverse_lazy('common:home')
 
 
-def login(request: HttpRequest) -> HttpResponse:
-    return render(request, 'accounts/login-page.html')
+# def login(request: HttpRequest) -> HttpResponse:
+#     return render(request, 'accounts/login-page.html')
 
 def profile_details(request: HttpRequest, pk: int) -> HttpResponse:
     return render(request, 'accounts/profile-details-page.html')
