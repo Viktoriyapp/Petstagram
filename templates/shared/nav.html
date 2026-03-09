@@ -5,7 +5,7 @@
         <div class="logo">
             <!-- Link to Home Page -->
             <a href="{% url 'common:home' %}">
-                <img width="50px" src="{% static '/images/free-30-instagram-stories-icons23_122570.png' %}" alt="img1">
+                <img width="50px" src="{% static 'images/free-30-instagram-stories-icons23_122570.png' %}" alt="img1">
             </a>
 
             <!-- Link to Home Page -->
@@ -30,32 +30,36 @@
                         <i>Add Photo</i>
                     </a>
                 </li>
-                <li class="nav-item">
 
-                    <!-- Link to Login Page -->
-                    <a href="{% url 'accounts:login' %}">
-                        <i>Login</i>
-                    </a>
-                </li>
-                <li class="nav-item">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
 
-                    <!-- Link to Register Page -->
-                    <a href="{% url 'accounts:register' %}">
-                        <i>Register</i>
-                    </a>
-                </li>
-                <li class="nav-item">
+                        <!-- Link to Profile Page -->
+                        <a href="{% url 'accounts:details' request.user.pk %}">
+                            <i>Profile</i>
+                        </a>
+                    </li>
 
-                    <!-- Link to Profile Page -->
-                    <a href="#">
-                        <i>Profile</i>
-                    </a>
-                </li>
+                    <form action="{% url 'accounts:logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type='submit' class="button"><i>Logout</i></button>
+                    </form>
+                {% else %}
+                    <li class="nav-item">
 
-                <form action="{% url 'accounts:logout' %}" method="post">
-                    {% csrf_token %}
-                    <button class="button"><i>Logout</i></button>
-                </form>
+                        <!-- Link to Login Page -->
+                        <a href="{% url 'accounts:login' %}">
+                            <i>Login</i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+
+                        <!-- Link to Register Page -->
+                        <a href="{% url 'accounts:register' %}">
+                            <i>Register</i>
+                        </a>
+                    </li>
+                {% endif %}
 
             </ul>
         </div>
