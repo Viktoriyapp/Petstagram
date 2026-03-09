@@ -12,7 +12,7 @@ profile_patterns = [
 ]
 
 authentication_patterns = [
-    path('register/', views.register, name='register'),
+    path('register/', views.RegisterAppUserView.as_view(), name='register'),
     path('login/', views.login, name='login'),
 ]
 urlpatterns = [
