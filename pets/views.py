@@ -14,8 +14,13 @@ class PetAddView(CreateView):
     model = Pet
     form_class = PetForm
     template_name = 'pets/pet-add-page.html'
-    success_url = reverse_lazy('accounts:details', kwargs={'pk': 1})
 
+    def get_success_url(self):
+        return reverse('accounts:details', kwargs={'pk': self.object.user.pk})
+
+    def form_valid(self, form):
+        form.user = self.request.user
+        super().form_valid(form)
 
 # def pet_add(request: HttpRequest) -> HttpResponse:
 #     form = PetForm(request.POST  or None)
@@ -78,7 +83,9 @@ class PetDeleteView(DeleteView):
     template_name = 'pets/pet-delete-page.html'
     slug_url_kwarg = 'pet_slug'
     form_class = PetForm
-    success_url = reverse_lazy('accounts:details', kwargs={'pk': 1})
+
+    def get_success_url(self):
+        return reverse('accounts:details', kwargs={'pk': self.object.user.pk})
 
     def get_initial(self): # for filled fields to the form
         return self.object.__dict__
