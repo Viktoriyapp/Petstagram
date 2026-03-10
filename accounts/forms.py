@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
+from django import forms
 from unfold.forms import UserCreationForm, UserChangeForm  # bcs we use unfold for frontend
-from accounts.models import AppUser
+from accounts.models import Profile
 
 UserModel = get_user_model()
 
@@ -13,3 +14,16 @@ class AppUserCreationForm(UserCreationForm):
 class AppUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = UserModel
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ('user',)
+
+        labels = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'date_of_birth': 'Date of Birth',
+            'profile_picture': 'Profile Picture',
+        }

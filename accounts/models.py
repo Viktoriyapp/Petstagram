@@ -44,3 +44,7 @@ class Profile(models.Model):
         blank=True,
         null=True,
     )
+
+    @property # used to access a method like an attribute(variable) instead of a function
+    def get_full_name(self) -> str:
+        return f'{self.first_name} {self.last_name}'

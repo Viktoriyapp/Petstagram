@@ -9,6 +9,6 @@ urlpatterns = [
     path('<str:username>/pet/<slug:pet_slug>/', include([
         path('', views.PetDetailView.as_view(), name='details'),
         path('edit/', views.PetEditView.as_view(), name='edit'),
-        path('delete/', views.pet_delete, name='delete'),
+        path('delete/', views.PetDeleteView.as_view(), name='delete'),
     ]))
 ]

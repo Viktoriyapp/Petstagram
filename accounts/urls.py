@@ -8,7 +8,7 @@ app_name = 'accounts'
 
 profile_patterns = [
     path('', views.ProfileDetailView.as_view(), name='details'),
-    path('edit/', views.profile_edit, name='edit'),
+    path('edit/', views.ProfileEditView.as_view(), name='edit'),
     path('delete/', views.profile_delete, name='delete'),
 ]
 
